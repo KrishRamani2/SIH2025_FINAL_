@@ -4,10 +4,10 @@ FastAPI Server for SIEM Dashboard
 Main server handling all API endpoints and WebSocket connections.
 """
 from src.app.plugins.usb_monitor import USBDeviceMonitorPlugin
-from src.app.routes import api_dashboard, api_alerts, api_logs, api_servers, api_sigma, api_tasks, api_upload, api_ttp
+from src.app.routes import api_dashboard, api_alerts, api_logs, api_servers, api_sigma, api_tasks, api_upload
 from fastapi.templating import Jinja2Templates
 from src.db.models import Server, LogEntry, Alert, ZeekConnDetails
-from src.db.setup import SessionLocal
+from src.db.setup import SessionLocal, engine, Base
 import asyncio
 import sys
 from pathlib import Path
@@ -19,13 +19,11 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from sqlalchemy import text
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-
-# Import API routes
-# Import API routes
 
 # === Configuration ===
 DB_PATH = "./ironchad_logs.db"
@@ -88,6 +86,32 @@ class ConnectionManager:
         self.active_connections -= disconnected
 
 
+# === DB Utilities ===
+
+def truncate_all_tables():
+    """
+    Hard reset of the database: delete all rows from all tables.
+    Keeps schema, wipes data. Designed for SQLite but works generally.
+    """
+    # Use a connection-level transaction
+    with engine.begin() as conn:
+        # For SQLite: temporarily disable FK checks to allow clean truncation
+        try:
+            conn.execute(text("PRAGMA foreign_keys = OFF"))
+        except Exception:
+            # If not SQLite, this will just fail and we ignore it
+            pass
+
+        # Delete from all tables in reverse FK order
+        for table in reversed(Base.metadata.sorted_tables):
+            conn.execute(table.delete())
+
+        try:
+            conn.execute(text("PRAGMA foreign_keys = ON"))
+        except Exception:
+            pass
+
+
 # === FastAPI App ===
 app = FastAPI(title="Ironclad SIEM Dashboard", version="2.0.0")
 
@@ -145,7 +169,6 @@ app.include_router(api_servers.router)
 app.include_router(api_sigma.router)
 app.include_router(api_tasks.router)
 app.include_router(api_upload.router)
-app.include_router(api_ttp.router)
 
 # === Static Files ===
 if STATIC_DIR.exists():
@@ -153,7 +176,6 @@ if STATIC_DIR.exists():
 if ASSETS_DIR.exists():
     app.mount("/assets", StaticFiles(directory=str(ASSETS_DIR)), name="assets")
 
-# === Routes ===
 # === Template Routes ===
 root_templates = Jinja2Templates(directory=str(Path(__file__).parent))
 
@@ -240,6 +262,28 @@ async def get_stats():
         )
     finally:
         db.close()
+
+
+# === DB RESET ENDPOINT ===
+
+@app.post("/api/reset-db")
+async def reset_db():
+    """
+    Reset the SIEM database by truncating all tables.
+    WARNING: This is destructive – all logs, alerts, servers, etc. are wiped.
+    """
+    try:
+        truncate_all_tables()
+        return {
+            "status": "ok",
+            "message": "Database has been reset (all tables truncated)."
+        }
+    except Exception as e:
+        print(f"[ResetDB] Error while truncating database: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to reset database. Check server logs for details."
+        )
 
 
 @app.get("/api/servers")
@@ -579,18 +623,48 @@ async def get_alerts(
     offset: int = Query(0, ge=0),
     severity: Optional[str] = None
 ):
-    """Get alerts with filtering."""
+    """Get alerts with filtering, including log_source and content from log_entry."""
     db = SessionLocal()
     try:
-        query = db.query(Alert).filter(Alert.resolved == False)
+        # Join Alert with LogEntry so we can include log_source + content
+        q = (
+            db.query(Alert, LogEntry)
+            .join(LogEntry, Alert.log_entry_id == LogEntry.id, isouter=True)
+            .filter(Alert.resolved == False)
+        )
 
         if severity:
-            query = query.filter(Alert.severity == severity)
+            q = q.filter(Alert.severity == severity)
 
-        alerts = query.order_by(Alert.triggered_at.desc()).offset(
-            offset).limit(limit).all()
+        rows = (
+            q.order_by(Alert.triggered_at.desc())
+             .offset(offset)
+             .limit(limit)
+             .all()
+        )
 
-        return AlertsResponse(alerts=alerts, count=len(alerts))
+        alerts_data = []
+        for alert, log in rows:
+            alerts_data.append({
+                # --- core alert fields ---
+                "id": alert.id,
+                "log_entry_id": alert.log_entry_id,
+                "server_id": alert.server_id,
+                "rule_id": alert.rule_id,
+                "severity": alert.severity,
+                "title": alert.title,
+                "description": alert.description,
+                "alert_metadata": alert.alert_metadata,
+                "triggered_at": alert.triggered_at.isoformat() if alert.triggered_at else None,
+                "resolved": bool(alert.resolved),
+
+                # --- extra fields from LogEntry ---
+                "log_source": log.log_source if log else None,
+                "content": log.content if log else None,
+                "recv_time": log.recv_time.isoformat() if (log and log.recv_time) else None,
+            })
+
+        return AlertsResponse(alerts=alerts_data, count=len(alerts_data))
     finally:
         db.close()
 
@@ -730,6 +804,7 @@ async def websocket_live(websocket: WebSocket):
     except Exception as e:
         print(f"[WebSocket] Error: {e}")
         ws_manager.disconnect(websocket)
+
 
 if __name__ == "__main__":
     import uvicorn

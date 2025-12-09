@@ -1,42 +1,69 @@
 #!/bin/bash
 
-# Usage: sudo ./update_syslog.sh <SERVER_IP_OR_URL> <PORT>
-# Example: sudo ./update_syslog.sh 192.168.0.105 514
+# FINAL PRODUCTION SYSLOG SETUP SCRIPT
+# Enables UDP reception + configures log forwarding (server + client)
+# Blog reference: Austin Newton Tech (Medium)
 
 CONFIG_FILE="/etc/rsyslog.conf"
-BACKUP_FILE="/etc/rsyslog.conf.bak_$(date +%F_%T)"
+FORWARD_FILE="/etc/rsyslog.d/99-forwarding.conf"
+BACKUP_FILE="/etc/rsyslog.conf.bak_$(date +%F_%H-%M-%S)"
 
 if [ "$EUID" -ne 0 ]; then
-  echo "❌ Please run as root (sudo)."
-  exit 1
+    echo "❌ Please run this script with sudo."
+    exit 1
 fi
 
-if [ $# -ne 2 ]; then
-  echo "Usage: $0 <SERVER_IP_OR_URL> <PORT>"
-  exit 1
-fi
+clear
+echo "========================================="
+echo "   SYSLOG SERVER + CLIENT SETUP SCRIPT"
+echo "========================================="
+echo ""
 
-SERVER="$1"
-PORT="$2"
+# Ask for port
+read -p "➡ Enter the UDP port for syslog reception (default 5140): " PORT
+PORT=${PORT:-5140}
 
-echo "➡ Backing up original config to: $BACKUP_FILE"
+echo "➡ Backing up rsyslog.conf → $BACKUP_FILE"
 cp "$CONFIG_FILE" "$BACKUP_FILE"
 
-echo "➡ Updating syslog forwarding rule..."
+echo "➡ Enabling UDP syslog listener on port $PORT..."
 
-# Remove any existing forwarding lines
-sed -i '/^\*\.\* @@/d' "$CONFIG_FILE"
-sed -i '/^\*\.\* @[^@]/d' "$CONFIG_FILE"
+# Uncomment module(load="imudp")
+sed -i 's/^#module(load="imudp")/module(load="imudp")/' "$CONFIG_FILE"
 
-# Append new forwarding rule
-echo "*.* @@${SERVER}:${PORT}" >> "$CONFIG_FILE"
+# Detect if input() exists
+if grep -q 'input(type="imudp"' "$CONFIG_FILE"; then
+    sed -i "s|input(type=\"imudp\" port=\"[0-9]*\")|input(type=\"imudp\" port=\"$PORT\")|" "$CONFIG_FILE"
+else
+    # Append under module(load="imudp")
+    sed -i "/module(load=\"imudp\")/a input(type=\"imudp\" port=\"$PORT\")" "$CONFIG_FILE"
+fi
 
-echo "➡ Restarting rsyslog service..."
+echo "✔ UDP syslog reception configured"
+echo ""
+
+# Ask SIEM IP for forwarding
+read -p "➡ Enter SIEM / Central Server IP for forwarding: " SERVER_IP
+
+echo "➡ Creating forwarding rule: *.* @@$SERVER_IP:$PORT"
+echo "*.* @@$SERVER_IP:$PORT" > "$FORWARD_FILE"
+
+echo "➡ Restarting rsyslog..."
 systemctl restart rsyslog
 
-if systemctl status rsyslog >/dev/null 2>&1; then
-  echo "✅ Syslog forwarding updated successfully!"
-  echo "➡ Now forwarding logs to: $SERVER:$PORT"
-else
-  echo "❌ Error: rsyslog failed to restart. Check logs."
-fi
+echo ""
+echo "========================================="
+echo "          ✔ SETUP COMPLETE ✔"
+echo "========================================="
+echo ""
+echo "Your machine is now configured to:"
+echo "  ✓ RECEIVE syslog via UDP on port $PORT"
+echo "  ✓ FORWARD ALL logs → $SERVER_IP:$PORT"
+echo ""
+echo "Verify listener:"
+echo "  sudo ss -tulnp | grep $PORT"
+echo ""
+echo "Test logging:"
+echo "  logger \"Test message from syslog_setup.sh\""
+echo ""
+echo "========================================="
