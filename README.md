@@ -149,3 +149,7 @@ while ($true) {
 
 ---
 For questions or improvements, please open an issue or contribute!
+
+
+To run the code "
+sudo uv run uvicorn src.app.server:app --host 0.0.0.0 --port 8000 --reload
