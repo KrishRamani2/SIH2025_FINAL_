@@ -1,17 +1,5 @@
-from fastapi import APIRouter, HTTPException, Header, UploadFile, File
-from pydantic import BaseModel
-from pathlib import Path
-import json
-from typing import Any, Dict
-
-from src.app.routes.api_tasks import task_state
-from src.workers.ttp_engine import TTPEngine
-
-router = APIRouter(prefix="/api/ttp", tags=["ttp"])
-
-TTP_DIR = Path("./TTP_Intelligence")
-UPLOAD_DIR = TTP_DIR / "uploads"
 from fastapi import APIRouter, HTTPException, Query, Header, UploadFile, File
+
 from pydantic import BaseModel
 from pathlib import Path
 import json

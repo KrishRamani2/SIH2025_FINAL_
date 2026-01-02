@@ -4,7 +4,7 @@ FastAPI Server for SIEM Dashboard
 Main server handling all API endpoints and WebSocket connections.
 """
 from src.app.plugins.usb_monitor import USBDeviceMonitorPlugin
-from src.app.routes import api_dashboard, api_alerts, api_logs, api_servers, api_sigma, api_tasks, api_upload
+from src.app.routes import api_dashboard, api_alerts, api_logs, api_servers, api_sigma, api_tasks, api_upload, api_ttp
 from fastapi.templating import Jinja2Templates
 from src.db.models import Server, LogEntry, Alert, ZeekConnDetails
 from src.db.setup import SessionLocal, engine, Base
@@ -169,6 +169,7 @@ app.include_router(api_servers.router)
 app.include_router(api_sigma.router)
 app.include_router(api_tasks.router)
 app.include_router(api_upload.router)
+app.include_router(api_ttp.router)
 
 # === Static Files ===
 if STATIC_DIR.exists():
