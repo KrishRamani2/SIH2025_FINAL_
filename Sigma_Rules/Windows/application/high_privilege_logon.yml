@@ -1,0 +1,26 @@
+title: High Privilege Logon Assignment (SeDebug/SeBackup/SeLoadDriver)
+id: e93f-priv-4672
+description: Detects logons receiving dangerous privileges which can be used to dump memory, escalate privileges or load malicious drivers.
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4672
+    PrivilegeList|contains:
+      - SeDebugPrivilege
+      - SeBackupPrivilege
+      - SeLoadDriverPrivilege
+  condition: selection
+fields:
+  - PrivilegeList
+  - SubjectUserName
+  - SubjectDomainName
+  - SubjectUserSid
+falsepositives:
+  - SYSTEM or legitimate admin operations
+level: medium
+tags:
+  - attack.privilege_escalation
+  - attack.T1068
+  - attack.T1547

@@ -1,0 +1,18 @@
+title: BITS Service Start-Type Modified (Potential Malware Download)
+id: e95f-bits-7040
+description: Detects modification of BITS service start behaviour (EventID 7040) used by malware for staging/download.
+logsource:
+  product: windows
+  service: system
+detection:
+  selection:
+    EventID: 7040
+    message|contains: "Background Intelligent Transfer Service"
+  condition: selection
+falsepositives:
+  - System optimization or admin resource tuning
+level: medium
+tags:
+  - attack.command_and_control
+  - attack.T1105
+  - attack.T1021

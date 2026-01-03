@@ -1,0 +1,22 @@
+title: Windows Package Installation
+id: hc-evt-setup-2-package-installed
+description: Detects Windows package installations for monitoring
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://docs.microsoft.com/en-us/windows/deployment/update/
+tags:
+    - attack.persistence
+logsource:
+    product: windows
+    service: setup
+detection:
+    selection:
+        EventID: 2
+    condition: selection
+falsepositives:
+    - Normal software installations
+    - Windows Updates
+    - Application deployments
+level: informational
+status: stable

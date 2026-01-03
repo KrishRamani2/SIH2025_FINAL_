@@ -1,0 +1,21 @@
+title: Windows Activation Failed
+id: custom-activation-8198
+description: Detects failures of the Software Protection service to activate Windows.
+status: stable
+author: GitHub Copilot
+date: 2025/12/09
+logsource:
+  product: windows
+  service: application
+detection:
+  selection:
+    EventID: 8198
+  condition: selection
+fields:
+  - ComputerName
+  - EventData.HResult
+falsepositives:
+  - Legitimate, temporary network outages.
+level: medium
+tags:
+  - attack.impact

@@ -1,0 +1,32 @@
+title: Windows Defender Update Disabled
+id: hc-evt-setup-10-defender-disabled
+description: Detects when Windows Defender definition updates are disabled
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1562/001/
+tags:
+    - attack.defense_evasion
+    - attack.t1562.001
+logsource:
+    product: windows
+    service: setup
+detection:
+    selection:
+        EventID: 10
+    defender_update:
+        UpdateTitle|contains:
+            - 'Windows Defender'
+            - 'Definition Update'
+            - 'Security Intelligence'
+    disabled:
+        UpdateResult|contains:
+            - 'turned off'
+            - 'disabled'
+    condition: selection and defender_update and disabled
+falsepositives:
+    - Administrative policy changes
+    - Legitimate security software conflicts
+    - System maintenance activities
+level: high
+status: stable

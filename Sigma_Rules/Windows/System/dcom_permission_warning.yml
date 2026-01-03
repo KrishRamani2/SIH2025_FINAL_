@@ -1,0 +1,23 @@
+title: DCOM Permission Warning
+id: hc-evt-10016-dcom-permission
+description: Detects DCOM permission warnings that may indicate misconfigurations or attacks
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1559/001/
+tags:
+    - attack.lateral_movement
+    - attack.t1559.001
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        EventID: 10016
+    condition: selection
+falsepositives:
+    - Normal DCOM configuration issues
+    - Application permission problems
+    - System misconfiguration
+level: low
+status: stable

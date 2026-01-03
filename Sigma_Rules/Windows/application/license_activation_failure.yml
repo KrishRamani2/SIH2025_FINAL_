@@ -1,0 +1,22 @@
+title: License Activation Failure
+id: hc-evt-8198-license-failure
+description: Detects license activation failures which may indicate system tampering
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://docs.microsoft.com/en-us/windows/deployment/volume-activation/
+tags:
+    - attack.defense_evasion
+logsource:
+    product: windows
+    service: application
+detection:
+    selection:
+        EventID: 8198
+    condition: selection
+falsepositives:
+    - Legitimate license expiration
+    - Network connectivity issues
+    - System clock issues
+level: medium
+status: stable

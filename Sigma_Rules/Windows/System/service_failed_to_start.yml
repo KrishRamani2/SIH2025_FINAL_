@@ -1,0 +1,31 @@
+title: Windows Service Failed to Start
+id: hc-evt-7000-service-failure
+description: Detects Windows services that fail to start which may indicate tampering
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1489/
+tags:
+    - attack.impact
+    - attack.t1489
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        EventID: 7000
+    security_services:
+        param1|contains:
+            - 'Windows Defender'
+            - 'MpsSvc'
+            - 'WinDefend'
+            - 'Sense'
+            - 'SecurityCenter'
+            - 'wscsvc'
+    condition: selection and security_services
+falsepositives:
+    - Service dependency issues
+    - System startup problems
+    - Software conflicts
+level: medium
+status: stable

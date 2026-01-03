@@ -1,0 +1,28 @@
+title: Defender Update Configuration Modified
+id: hc-evt-setup-8-defender-modified
+description: Detects changes to Windows Defender update configuration
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1562/001/
+tags:
+    - attack.defense_evasion
+    - attack.t1562.001
+logsource:
+    product: windows
+    service: setup
+detection:
+    selection:
+        EventID: 8
+    defender_related:
+        UpdateTitle|contains:
+            - 'Windows Defender'
+            - 'Definition Update'
+            - 'Security Intelligence'
+    condition: selection and defender_related
+falsepositives:
+    - Normal Windows Updates
+    - Administrative configuration changes
+    - Automatic update processes
+level: medium
+status: stable

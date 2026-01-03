@@ -1,0 +1,19 @@
+title: Windows Search Indexer Reset
+id: custom-search-reset-1004
+description: Detects a full reset of the Windows Search index, which can cause high disk I/O and performance degradation.
+status: informational
+author: GitHub Copilot
+date: 2025/12/09
+logsource:
+  product: windows
+  service: application
+detection:
+  selection:
+    Provider_Name: 'Microsoft-Windows-Search'
+    EventID: 1004
+  condition: selection
+fields:
+  - ComputerName
+level: low
+tags:
+  - attack.impact

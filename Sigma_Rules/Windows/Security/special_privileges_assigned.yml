@@ -1,0 +1,29 @@
+title: Special Privileges Assigned to Logon
+id: hc-evt-4672-special-privileges
+description: Detects when special privileges are assigned to a new logon session
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1078/
+tags:
+    - attack.privilege_escalation
+    - attack.t1078
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4672
+    high_privs:
+        PrivilegeList|contains:
+            - 'SeDebugPrivilege'
+            - 'SeBackupPrivilege'
+            - 'SeRestorePrivilege'
+            - 'SeTakeOwnershipPrivilege'
+            - 'SeLoadDriverPrivilege'
+    condition: selection and high_privs
+falsepositives:
+    - Legitimate administrative activities
+    - System services requiring elevated privileges
+level: medium
+status: stable

@@ -1,0 +1,23 @@
+title: AppCompat or Defender Status Reset
+id: hc-evt-16-appcompat-reset
+description: Detects AppCompat or Windows Defender status resets which may indicate evasion attempts
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1562/001/
+tags:
+    - attack.defense_evasion
+    - attack.t1562.001
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        EventID: 16
+    condition: selection
+falsepositives:
+    - System maintenance activities
+    - Software installations
+    - Normal system operations
+level: high
+status: stable

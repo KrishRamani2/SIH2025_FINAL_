@@ -1,0 +1,29 @@
+title: Successful Logon Event
+id: hc-evt-4624-successful-logon
+description: Detects successful logon events that may indicate lateral movement
+author: Ironclad Security Team
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1021/
+tags:
+    - attack.lateral_movement
+    - attack.t1021
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4624
+    network_logon:
+        LogonType: 3  # Network logon
+    interactive_logon:
+        LogonType: 
+            - 2   # Interactive
+            - 10  # RemoteInteractive
+    condition: selection and (network_logon or interactive_logon)
+falsepositives:
+    - Normal user logons
+    - Service account logons
+    - Scheduled task logons
+level: low
+status: stable
