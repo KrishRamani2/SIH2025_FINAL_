@@ -4,7 +4,7 @@ status: experimental
 description: Detects persistent connections to known C2 infrastructure or suspicious remote addresses
 references:
   - https://attack.mitre.org/techniques/T1071/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: network

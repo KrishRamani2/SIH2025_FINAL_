@@ -4,7 +4,7 @@ status: experimental
 description: Detects new user accounts or privilege escalation via group changes
 references:
   - https://attack.mitre.org/techniques/T1136/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: syslog

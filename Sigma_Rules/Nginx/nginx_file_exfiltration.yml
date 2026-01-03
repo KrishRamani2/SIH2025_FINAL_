@@ -2,7 +2,7 @@ title: Nginx File Download/Exfiltration Detection
 id: nginx_file_exfiltration
 status: experimental
 description: Detects large or repeated downloads of sensitive files in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

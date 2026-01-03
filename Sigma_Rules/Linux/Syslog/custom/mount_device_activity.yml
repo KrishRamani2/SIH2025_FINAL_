@@ -4,7 +4,7 @@ status: experimental
 description: Detects mounting of external devices or loop devices
 references:
   - https://attack.mitre.org/techniques/T1091/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: syslog

@@ -2,7 +2,7 @@ title: Nginx Session Fixation Detection
 id: nginx_session_fixation
 status: experimental
 description: Detects manipulation of session IDs in requests in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

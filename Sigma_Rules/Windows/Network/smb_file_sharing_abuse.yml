@@ -4,7 +4,7 @@ status: experimental
 description: Detects unusual SMB connections from Windows hosts
 references:
   - https://attack.mitre.org/techniques/T1021/002/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

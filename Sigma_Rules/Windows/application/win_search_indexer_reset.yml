@@ -2,7 +2,7 @@ title: Windows Search Indexer Reset
 id: custom-search-reset-1004
 description: Detects a full reset of the Windows Search index, which can cause high disk I/O and performance degradation.
 status: informational
-author: GitHub Copilot
+author: GitHub Sachin1785
 date: 2025/12/09
 logsource:
   product: windows

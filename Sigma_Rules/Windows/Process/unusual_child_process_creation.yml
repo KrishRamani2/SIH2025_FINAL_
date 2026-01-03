@@ -4,7 +4,7 @@ status: experimental
 description: Detects system processes spawning unexpected child processes
 references:
   - https://attack.mitre.org/techniques/T1055/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: process

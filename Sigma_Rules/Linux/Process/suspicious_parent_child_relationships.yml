@@ -4,7 +4,7 @@ status: experimental
 description: Detects suspicious parent-child process relationships often used in attacks (e.g., shells spawned by web servers, editors, or database processes)
 references:
   - https://attack.mitre.org/techniques/T1059/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: process

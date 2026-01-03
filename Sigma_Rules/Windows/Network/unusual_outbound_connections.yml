@@ -4,7 +4,7 @@ status: experimental
 description: Detects outbound connections to rare or foreign IPs (potential data exfiltration or C2)
 references:
   - https://attack.mitre.org/techniques/T1041/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

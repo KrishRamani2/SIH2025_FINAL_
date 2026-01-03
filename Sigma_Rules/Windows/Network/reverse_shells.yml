@@ -4,7 +4,7 @@ status: experimental
 description: Detects shell processes making outbound connections (reverse shells)
 references:
   - https://attack.mitre.org/techniques/T1059/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

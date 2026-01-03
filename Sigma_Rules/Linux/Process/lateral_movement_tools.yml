@@ -4,7 +4,7 @@ status: experimental
 description: Detects execution of tools like ssh, scp, rsh, or remote desktop clients
 references:
   - https://attack.mitre.org/techniques/T1021/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: process

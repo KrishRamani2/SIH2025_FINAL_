@@ -2,7 +2,7 @@ title: Volume Shadow Copy Service (VSS) Error on Shutdown
 id: custom-vss-shutdown-8193
 description: Detects Volume Shadow Copy Service (VSS) errors that occur during system shutdown. While often benign, they can sometimes indicate issues with backup processes.
 status: informational
-author: GitHub Copilot
+author: GitHub Sachin1785
 date: 2025/12/09
 logsource:
   product: windows

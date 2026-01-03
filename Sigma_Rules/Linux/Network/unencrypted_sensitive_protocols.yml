@@ -4,7 +4,7 @@ status: experimental
 description: Detects use of unencrypted protocols (FTP, Telnet, HTTP) for sensitive data transfer
 references:
   - https://attack.mitre.org/techniques/T1040/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: network

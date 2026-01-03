@@ -4,7 +4,7 @@ status: experimental
 description: Detects use of tools like compact.exe, makecab.exe, or third-party archivers for bulk file operations
 references:
   - https://attack.mitre.org/techniques/T1560/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: process

@@ -4,7 +4,7 @@ status: experimental
 description: Detects schtasks.exe or at.exe creating or running tasks with unusual or obfuscated command lines
 references:
   - https://attack.mitre.org/techniques/T1053/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: process

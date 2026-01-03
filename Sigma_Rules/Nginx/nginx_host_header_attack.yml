@@ -2,7 +2,7 @@ title: Nginx Host Header Attack Detection
 id: nginx_host_header_attack
 status: experimental
 description: Detects manipulation of Host header for cache poisoning or SSRF in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

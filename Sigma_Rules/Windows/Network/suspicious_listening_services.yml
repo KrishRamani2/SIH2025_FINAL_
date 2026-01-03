@@ -4,7 +4,7 @@ status: experimental
 description: Detects unexpected processes listening on non-standard ports (potential backdoors or malware)
 references:
   - https://attack.mitre.org/techniques/T1043/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

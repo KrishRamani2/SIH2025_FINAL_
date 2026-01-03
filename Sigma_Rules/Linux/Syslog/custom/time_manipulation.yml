@@ -4,7 +4,7 @@ status: experimental
 description: Detects changes to system time or NTP service tampering
 references:
   - https://attack.mitre.org/techniques/T1070/006/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: syslog

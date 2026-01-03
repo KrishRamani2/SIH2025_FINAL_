@@ -4,7 +4,7 @@ status: experimental
 description: Detects changes to network interfaces, routes, or firewall rules
 references:
   - https://attack.mitre.org/techniques/T1562/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: syslog

@@ -2,7 +2,7 @@ title: Windows Activation Failed
 id: custom-activation-8198
 description: Detects failures of the Software Protection service to activate Windows.
 status: stable
-author: GitHub Copilot
+author: GitHub Sachin1785
 date: 2025/12/09
 logsource:
   product: windows

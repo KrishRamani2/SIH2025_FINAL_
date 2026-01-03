@@ -4,7 +4,7 @@ status: experimental
 description: Detects sudden spikes in network traffic (potential DDoS or exfiltration)
 references:
   - https://attack.mitre.org/techniques/T1498/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

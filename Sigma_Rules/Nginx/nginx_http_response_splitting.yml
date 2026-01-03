@@ -2,7 +2,7 @@ title: Nginx HTTP Response Splitting Detection
 id: nginx_http_response_splitting
 status: experimental
 description: Detects malformed headers or CRLF injection attempts in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

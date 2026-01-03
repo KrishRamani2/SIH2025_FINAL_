@@ -4,7 +4,7 @@ status: experimental
 description: Detects connections to IPs/domains known for malware, phishing, or C2
 references:
   - https://attack.mitre.org/techniques/T1568/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

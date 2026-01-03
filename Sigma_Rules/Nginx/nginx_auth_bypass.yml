@@ -2,7 +2,7 @@ title: Nginx Authentication Bypass Detection
 id: nginx_auth_bypass
 status: experimental
 description: Detects requests exploiting weak authentication mechanisms in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver
