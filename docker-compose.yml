@@ -6,9 +6,12 @@ services:
       dockerfile: Dockerfile
       # These args are passed from the environment variables set by the build script
       args:
-        - INCLUDE_LINUX_RULES=${INCLUDE_LINUX_RULES:-false}
-        - INCLUDE_NGINX_RULES=${INCLUDE_NGINX_RULES:-false}
-        - INCLUDE_WINDOWS_RULES=${INCLUDE_WINDOWS_RULES:-false}
+        - INCLUDE_LINUX=${INCLUDE_LINUX:-false}
+        - INCLUDE_NGINX=${INCLUDE_NGINX:-false}
+        - INCLUDE_WINDOWS=${INCLUDE_WINDOWS:-false}
+        - INCLUDE_TTP_LINUX=${INCLUDE_TTP_LINUX:-false}
+        - INCLUDE_TTP_NGINX=${INCLUDE_TTP_NGINX:-false}
+        - INCLUDE_TTP_WINDOWS=${INCLUDE_TTP_WINDOWS:-false}
     # The image name is now parameterized
     image: sih-central-custom:${IMAGE_TAG:-latest}
     container_name: sih-central-app

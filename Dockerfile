@@ -26,27 +26,43 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 1. Create a temporary directory for the rules we want.
 RUN mkdir -p /temp_sigma_rules
 
-# 2. Copy ONLY the desired rule subdirectories from the build context to the temp location.
-ARG INCLUDE_LINUX_RULES=false
-ARG INCLUDE_NGINX_RULES=false
-ARG INCLUDE_WINDOWS_RULES=false
+
+# --- Sigma Rules Args ---
+ARG INCLUDE_LINUX=false
+ARG INCLUDE_NGINX=false
+ARG INCLUDE_WINDOWS=false
 COPY Sigma_Rules/ /context_sigma_rules/
-RUN if [ "$INCLUDE_LINUX_RULES" = "true" ] ; then echo "Including Linux rules" && mv /context_sigma_rules/Linux /temp_sigma_rules/; fi
-RUN if [ "$INCLUDE_NGINX_RULES" = "true" ] ; then echo "Including Nginx rules" && mv /context_sigma_rules/Nginx /temp_sigma_rules/; fi
-RUN if [ "$INCLUDE_WINDOWS_RULES" = "true" ] ; then echo "Including Windows rules" && mv /context_sigma_rules/Windows /temp_sigma_rules/; fi
+RUN if [ "$INCLUDE_LINUX" = "true" ] ; then echo "Including Linux rules" && mv /context_sigma_rules/Linux /temp_sigma_rules/; fi
+RUN if [ "$INCLUDE_NGINX" = "true" ] ; then echo "Including Nginx rules" && mv /context_sigma_rules/Nginx /temp_sigma_rules/; fi
+RUN if [ "$INCLUDE_WINDOWS" = "true" ] ; then echo "Including Windows rules" && mv /context_sigma_rules/Windows /temp_sigma_rules/; fi
 RUN rm -rf /context_sigma_rules
 
-# 3. Copy the rest of your application's code. The main "Sigma_Rules" dir will be overwritten.
+# --- TTP Intelligence Args ---
+RUN mkdir -p /temp_ttp_intel
+ARG INCLUDE_TTP_LINUX=false
+ARG INCLUDE_TTP_NGINX=false
+ARG INCLUDE_TTP_WINDOWS=false
+COPY TTP_Intelligence/ /context_ttp_intel/
+RUN if [ "$INCLUDE_TTP_LINUX" = "true" ] ; then echo "Including TTP Linux" && mv /context_ttp_intel/Linux /temp_ttp_intel/; fi
+RUN if [ "$INCLUDE_TTP_NGINX" = "true" ] ; then echo "Including TTP Nginx" && mv /context_ttp_intel/Nginx /temp_ttp_intel/; fi
+RUN if [ "$INCLUDE_TTP_WINDOWS" = "true" ] ; then echo "Including TTP Windows" && mv /context_ttp_intel/Windows /temp_ttp_intel/; fi
+RUN rm -rf /context_ttp_intel
+
+# 3. Copy the rest of your application's code first.
 COPY . .
 
-# 4. Move the selected rules from the temp location to the final destination.
-RUN if [ -d "/temp_sigma_rules/Linux" ] || [ -d "/temp_sigma_rules/Nginx" ] || [ -d "/temp_sigma_rules/Windows" ]; then \
-    rm -rf /app/Sigma_Rules && \
-    mv /temp_sigma_rules /app/Sigma_Rules; \
-    else \
-    rm -rf /temp_sigma_rules && \
-    mkdir -p /app/Sigma_Rules; \
-    fi
+# 4. Remove all Sigma/TTP rule folders, then move in only the selected ones.
+RUN rm -rf /app/Sigma_Rules/Linux /app/Sigma_Rules/Nginx /app/Sigma_Rules/Windows
+RUN if [ -d "/temp_sigma_rules/Linux" ]; then mv /temp_sigma_rules/Linux /app/Sigma_Rules/; fi
+RUN if [ -d "/temp_sigma_rules/Nginx" ]; then mv /temp_sigma_rules/Nginx /app/Sigma_Rules/; fi
+RUN if [ -d "/temp_sigma_rules/Windows" ]; then mv /temp_sigma_rules/Windows /app/Sigma_Rules/; fi
+RUN rm -rf /temp_sigma_rules
+
+RUN rm -rf /app/TTP_Intelligence/Linux /app/TTP_Intelligence/Nginx /app/TTP_Intelligence/Windows
+RUN if [ -d "/temp_ttp_intel/Linux" ]; then mv /temp_ttp_intel/Linux /app/TTP_Intelligence/; fi
+RUN if [ -d "/temp_ttp_intel/Nginx" ]; then mv /temp_ttp_intel/Nginx /app/TTP_Intelligence/; fi
+RUN if [ -d "/temp_ttp_intel/Windows" ]; then mv /temp_ttp_intel/Windows /app/TTP_Intelligence/; fi
+RUN rm -rf /temp_ttp_intel
 # --- End of Corrected Logic ---
 
 # Expose the ports your application needs

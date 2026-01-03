@@ -12,12 +12,36 @@ This guide explains how to run the IRONCLAD SIEM Dashboard in a Docker container
 ### 1. Build and Run with Docker Compose (Recommended)
 
 ```bash
-# Build and start the container
+# Build and start the container (all Sigma rules and all TTP intelligence)
 docker-compose up --build
 
 # Or run in detached mode (background)
 docker-compose up -d --build
 ```
+
+
+#### Custom Build: Only Selected Sigma Rules and TTP Intelligence
+
+You can build a custom image with only the Sigma rules and TTP intelligence you want using the build-compose.sh script. The flags `--linux`, `--nginx`, and `--windows` now control inclusion of both Sigma and TTP rules for each platform:
+
+```bash
+# Only Linux rules (Sigma + TTP)
+./build-compose.sh --linux
+
+# Only Nginx rules (Sigma + TTP)
+./build-compose.sh --nginx
+
+# Only Windows rules (Sigma + TTP)
+./build-compose.sh --windows
+
+# All rules (Sigma + TTP)
+./build-compose.sh --all
+
+# Only base image (no rules/intel)
+./build-compose.sh
+```
+
+**Note:** The `--linux`, `--nginx`, and `--windows` flags now include both Sigma and TTP rules for the selected platform. The previous `--ttp-*` flags are no longer needed.
 
 ### 2. Access the Dashboard
 
@@ -54,7 +78,7 @@ docker-compose up -d --build
 
 ### Execute commands inside the container
 ```bash
-docker-compose exec siem-dashboard bash
+docker-compose exec sih-central-app bash
 ```
 
 ## File Editing
@@ -126,6 +150,7 @@ chmod -R 755 collected_logs logs
 ✅ **Auto-start**: server.py runs automatically on container startup
 ✅ **Persistent**: Data survives container restarts
 ✅ **Isolated**: All dependencies bundled in the container
+✅ **Customizable**: Build images with only the Sigma rules and TTP intelligence you need
 
 ## Notes
 

@@ -12,34 +12,41 @@
 INCLUDE_LINUX="false"
 INCLUDE_NGINX="false"
 INCLUDE_WINDOWS="false"
+INCLUDE_TTP_LINUX="false"
+INCLUDE_TTP_NGINX="false"
+INCLUDE_TTP_WINDOWS="false"
 TAG_SUFFIX=""
-
-# --- Parse Command-Line Arguments ---
 for arg in "$@"
 do
     case $arg in
-        --linux)
-        INCLUDE_LINUX="true"
-        TAG_SUFFIX+="-linux"
-        shift
-        ;;
-        --nginx)
-        INCLUDE_NGINX="true"
-        TAG_SUFFIX+="-nginx"
-        shift
-        ;;
-        --windows)
-        INCLUDE_WINDOWS="true"
-        TAG_SUFFIX+="-windows"
-        shift
-        ;;
-        --all)
-        INCLUDE_LINUX="true"
-        INCLUDE_NGINX="true"
-        INCLUDE_WINDOWS="true"
-        TAG_SUFFIX="-all"
-        shift
-        ;;
+      --linux)
+      INCLUDE_LINUX="true"
+      INCLUDE_TTP_LINUX="true"
+      TAG_SUFFIX+="-linux"
+      shift
+      ;;
+      --nginx)
+      INCLUDE_NGINX="true"
+      INCLUDE_TTP_NGINX="true"
+      TAG_SUFFIX+="-nginx"
+      shift
+      ;;
+      --windows)
+      INCLUDE_WINDOWS="true"
+      INCLUDE_TTP_WINDOWS="true"
+      TAG_SUFFIX+="-windows"
+      shift
+      ;;
+      --all)
+      INCLUDE_LINUX="true"
+      INCLUDE_NGINX="true"
+      INCLUDE_WINDOWS="true"
+      INCLUDE_TTP_LINUX="true"
+      INCLUDE_TTP_NGINX="true"
+      INCLUDE_TTP_WINDOWS="true"
+      TAG_SUFFIX="-all"
+      shift
+      ;;
     esac
 done
 
@@ -57,11 +64,12 @@ echo "Including Linux rules: $INCLUDE_LINUX"
 echo "Including Nginx rules: $INCLUDE_NGINX"
 echo "Including Windows rules: $INCLUDE_WINDOWS"
 echo "-----------------------------"
-
-# Export variables for docker-compose to read
-export INCLUDE_LINUX_RULES=$INCLUDE_LINUX
-export INCLUDE_NGINX_RULES=$INCLUDE_NGINX
-export INCLUDE_WINDOWS_RULES=$INCLUDE_WINDOWS
+export INCLUDE_LINUX=$INCLUDE_LINUX
+export INCLUDE_NGINX=$INCLUDE_NGINX
+export INCLUDE_WINDOWS=$INCLUDE_WINDOWS
+export INCLUDE_TTP_LINUX=$INCLUDE_TTP_LINUX
+export INCLUDE_TTP_NGINX=$INCLUDE_TTP_NGINX
+export INCLUDE_TTP_WINDOWS=$INCLUDE_TTP_WINDOWS
 export IMAGE_TAG=$IMAGE_TAG
 
 # Run docker-compose build
