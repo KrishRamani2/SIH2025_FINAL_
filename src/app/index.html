@@ -1001,9 +1001,9 @@
                         </div>
                         <div>
                             <h3 class="font-bold text-lg">Upload Log File</h3>
-                            <p class="text-xs opacity-60 mt-1">Supported formats: .json</p>
+                            <p class="text-xs opacity-60 mt-1">Supported formats: .json, .log</p>
                         </div>
-                        <input type="file" id="log-file-input" accept=".json" class="hidden"
+                        <input type="file" id="log-file-input" accept=".json,.log" class="hidden"
                             onchange="handleLogFileSelect(this)">
                         <button onclick="document.getElementById('log-file-input').click()"
                             class="px-6 py-2 rounded bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold transition-colors">
@@ -3838,8 +3838,8 @@
                 const file = input.files[0];
                 if (!file) return;
 
-                if (!file.name.toLowerCase().endsWith('.json')) {
-                    showToast('Only .json files are allowed.', 'warning');
+                if (!file.name.toLowerCase().endsWith('.json') && !file.name.toLowerCase().endsWith('.log')) {
+                    showToast('Only .json and .log files are allowed.', 'warning');
                     input.value = '';
                     return;
                 }
