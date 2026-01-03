@@ -1,7 +1,7 @@
 title: Successful Logon Event
 id: hc-evt-4624-successful-logon
 description: Detects successful logon events that may indicate lateral movement
-author: Ironclad Security Team
+author: yati-01
 date: 2025/12/09
 references:
     - https://attack.mitre.org/techniques/T1021/

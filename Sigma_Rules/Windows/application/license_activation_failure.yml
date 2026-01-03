@@ -1,7 +1,7 @@
 title: License Activation Failure
 id: hc-evt-8198-license-failure
 description: Detects license activation failures which may indicate system tampering
-author: Ironclad Security Team
+author: yati-01
 date: 2025/12/09
 references:
     - https://docs.microsoft.com/en-us/windows/deployment/volume-activation/

@@ -1,7 +1,7 @@
 title: Windows Defender Update Disabled
 id: hc-evt-setup-10-defender-disabled
 description: Detects when Windows Defender definition updates are disabled
-author: Ironclad Security Team
+author: yati-01
 date: 2025/12/09
 references:
     - https://attack.mitre.org/techniques/T1562/001/

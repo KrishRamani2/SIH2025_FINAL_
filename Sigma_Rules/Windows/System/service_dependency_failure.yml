@@ -1,7 +1,7 @@
 title: Service Dependency Failure
 id: hc-evt-7001-service-dependency
 description: Detects service dependency failures that may indicate system issues or tampering
-author: Ironclad Security Team
+author: yati-01
 date: 2025/12/09
 references:
     - https://attack.mitre.org/techniques/T1489/

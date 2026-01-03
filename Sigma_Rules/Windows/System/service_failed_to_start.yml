@@ -1,7 +1,7 @@
 title: Windows Service Failed to Start
 id: hc-evt-7000-service-failure
 description: Detects Windows services that fail to start which may indicate tampering
-author: Ironclad Security Team
+author: yati-01
 date: 2025/12/09
 references:
     - https://attack.mitre.org/techniques/T1489/

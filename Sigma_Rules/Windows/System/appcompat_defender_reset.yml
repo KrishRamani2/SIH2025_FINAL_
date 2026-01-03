@@ -1,7 +1,7 @@
 title: AppCompat or Defender Status Reset
 id: hc-evt-16-appcompat-reset
 description: Detects AppCompat or Windows Defender status resets which may indicate evasion attempts
-author: Ironclad Security Team
+author: yati-01
 date: 2025/12/09
 references:
     - https://attack.mitre.org/techniques/T1562/001/

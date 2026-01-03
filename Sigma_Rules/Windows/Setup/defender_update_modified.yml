@@ -1,7 +1,7 @@
 title: Defender Update Configuration Modified
 id: hc-evt-setup-8-defender-modified
 description: Detects changes to Windows Defender update configuration
-author: Ironclad Security Team
+author: yati-01
 date: 2025/12/09
 references:
     - https://attack.mitre.org/techniques/T1562/001/

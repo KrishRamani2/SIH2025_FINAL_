@@ -1,7 +1,7 @@
 title: DNS Name Resolution Failure (WPAD)
 id: hc-evt-1014-dns-wpad-failure
 description: Detects DNS resolution failures for WPAD which may indicate network attacks
-author: Ironclad Security Team
+author: yati-01
 date: 2025/12/09
 references:
     - https://attack.mitre.org/techniques/T1557/001/
