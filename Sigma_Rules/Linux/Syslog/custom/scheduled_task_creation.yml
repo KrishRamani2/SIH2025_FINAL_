@@ -4,7 +4,7 @@ status: experimental
 description: Detects creation of unusual or hidden cron/at jobs
 references:
   - https://attack.mitre.org/techniques/T1053/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: syslog

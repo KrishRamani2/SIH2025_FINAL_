@@ -4,7 +4,7 @@ status: experimental
 description: Detects Office or browser processes spawning command shells or scripting engines
 references:
   - https://attack.mitre.org/techniques/T1204/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: process

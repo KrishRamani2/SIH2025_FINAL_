@@ -1,0 +1,23 @@
+title: Unknown or Empty Event Log Entry
+id: hc-evt-27-unknown-event
+description: Detects unknown or empty event log entries which may indicate log tampering
+author: yati-01
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1070/001/
+tags:
+    - attack.defense_evasion
+    - attack.t1070.001
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        EventID: 27
+    condition: selection
+falsepositives:
+    - System startup issues
+    - Event log corruption
+    - Normal system operations
+level: low
+status: stable

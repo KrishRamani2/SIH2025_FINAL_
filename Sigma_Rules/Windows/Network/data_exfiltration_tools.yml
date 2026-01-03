@@ -4,7 +4,7 @@ status: experimental
 description: Detects outbound connections from processes like netcat, curl, wget, or custom binaries
 references:
   - https://attack.mitre.org/techniques/T1041/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

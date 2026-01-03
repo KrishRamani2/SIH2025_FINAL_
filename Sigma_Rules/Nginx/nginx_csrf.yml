@@ -2,7 +2,7 @@ title: Nginx CSRF Attempt Detection
 id: nginx_csrf
 status: experimental
 description: Detects suspicious requests that may indicate CSRF attempts in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

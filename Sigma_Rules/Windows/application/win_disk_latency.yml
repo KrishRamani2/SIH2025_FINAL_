@@ -1,0 +1,22 @@
+title: ESENT High Latency Disk Write
+id: custom-disk-latency-508
+description: Detects abnormally long disk write requests from the ESENT database engine, which may indicate failing hardware or severe I/O contention.
+status: stable
+author: GitHub Sachin1785
+date: 2025/12/09
+logsource:
+  product: windows
+  service: application
+detection:
+  selection:
+    Provider_Name: 'ESENT'
+    EventID: 508
+  condition: selection
+fields:
+  - ComputerName
+  - EventData.Data
+falsepositives:
+  - Heavily overloaded systems, especially virtual machines with slow storage.
+level: high
+tags:
+  - attack.impact

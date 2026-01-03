@@ -4,7 +4,7 @@ status: experimental
 description: Detects high-volume or suspicious DNS queries (potential tunneling or exfiltration)
 references:
   - https://attack.mitre.org/techniques/T1048/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

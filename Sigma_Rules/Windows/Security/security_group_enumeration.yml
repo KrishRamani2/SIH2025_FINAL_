@@ -1,0 +1,23 @@
+title: Security Group Membership Enumeration
+id: hc-evt-4799-group-enumeration
+description: Detects enumeration of security group memberships which may indicate reconnaissance
+author: yati-01
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1087/001/
+tags:
+    - attack.discovery
+    - attack.t1087.001
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4799
+    condition: selection
+falsepositives:
+    - Administrative tools
+    - Group policy processing
+    - Security auditing software
+level: medium
+status: stable

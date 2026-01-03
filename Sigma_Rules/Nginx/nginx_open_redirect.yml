@@ -2,7 +2,7 @@ title: Nginx Open Redirect Detection
 id: nginx_open_redirect
 status: experimental
 description: Detects requests with suspicious redirect parameters in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

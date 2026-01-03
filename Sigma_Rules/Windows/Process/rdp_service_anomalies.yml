@@ -4,7 +4,7 @@ status: experimental
 description: Detects mstsc.exe or rdpclip.exe started by non-interactive users or with unexpected parent processes
 references:
   - https://attack.mitre.org/techniques/T1021/001/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: process

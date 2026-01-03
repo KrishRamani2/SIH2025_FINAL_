@@ -4,7 +4,7 @@ status: experimental
 description: Detects attempts to delete or modify log files or stop logging services
 references:
   - https://attack.mitre.org/techniques/T1070/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: syslog

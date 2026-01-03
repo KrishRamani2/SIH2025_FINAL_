@@ -4,7 +4,7 @@ status: experimental
 description: Detects applications not typically associated with network activity establishing network connections
 references:
   - https://attack.mitre.org/techniques/T1105/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: process

@@ -4,7 +4,7 @@ status: experimental
 description: Detects suspicious use of built-in Windows tools for non-standard purposes
 references:
   - https://attack.mitre.org/techniques/T1218/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: process

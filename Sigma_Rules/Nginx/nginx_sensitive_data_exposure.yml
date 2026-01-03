@@ -2,7 +2,7 @@ title: Nginx Sensitive Data Exposure Detection
 id: nginx_sensitive_data_exposure
 status: experimental
 description: Detects requests for sensitive files like .env, .git, .htaccess, or backup files in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

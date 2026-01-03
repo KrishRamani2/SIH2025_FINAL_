@@ -2,7 +2,7 @@ title: Nginx Local File Inclusion (LFI) Detection
 id: nginx_lfi
 status: experimental
 description: Detects attempts to include local files via URL parameters in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

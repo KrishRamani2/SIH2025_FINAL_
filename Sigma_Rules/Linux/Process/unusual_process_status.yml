@@ -4,7 +4,7 @@ status: experimental
 description: Detects processes stuck in zombie or uninterruptible states
 references:
   - https://attack.mitre.org/techniques/T1499/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: process

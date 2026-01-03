@@ -1,0 +1,23 @@
+title: Service Dependency Failure
+id: hc-evt-7001-service-dependency
+description: Detects service dependency failures that may indicate system issues or tampering
+author: yati-01
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1489/
+tags:
+    - attack.impact
+    - attack.t1489
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        EventID: 7001
+    condition: selection
+falsepositives:
+    - Normal system startup issues
+    - Service configuration problems
+    - Software conflicts
+level: medium
+status: stable

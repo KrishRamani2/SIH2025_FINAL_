@@ -1,0 +1,31 @@
+title: Service Start Type Modified
+id: hc-evt-7040-service-modified
+description: Detects changes to Windows service startup configuration
+author: yati-01
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1543/003/
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1543.003
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        EventID: 7040
+    critical_services:
+        param1|contains:
+            - 'Windows Defender'
+            - 'MpsSvc'
+            - 'WinDefend'
+            - 'Sense'
+            - 'SecurityCenter'
+    condition: selection and critical_services
+falsepositives:
+    - Legitimate service configuration changes
+    - Software installations
+    - Group policy changes
+level: medium
+status: stable

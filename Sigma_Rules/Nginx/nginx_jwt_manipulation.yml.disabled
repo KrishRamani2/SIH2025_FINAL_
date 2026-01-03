@@ -2,7 +2,7 @@ title: Nginx JWT Manipulation Detection
 id: nginx_jwt_manipulation
 status: experimental
 description: Detects tampering with JWT tokens in requests in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

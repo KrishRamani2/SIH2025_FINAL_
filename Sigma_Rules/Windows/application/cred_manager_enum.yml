@@ -1,0 +1,24 @@
+title: Credential Manager Enumeration or Read Attempt
+id: e91f-cm-read-5379
+description: Detects repeated Credential Manager access attempts (EventID 5379) which may indicate credential harvesting or recon.
+status: experimental
+author: Riya Shah - SIH Rulebook
+date: 2025/12/09
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 5379
+  condition: selection
+fields:
+  - SubjectUserName
+  - TargetName
+  - ReadOperation
+falsepositives:
+  - User manually accessing saved credentials
+  - Browser retrieving stored passwords
+level: high
+tags:
+  - attack.credential_access
+  - attack.T1003.004

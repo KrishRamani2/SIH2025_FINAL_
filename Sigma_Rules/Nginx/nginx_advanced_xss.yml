@@ -2,7 +2,7 @@ title: Nginx Reflected/Stored XSS Detection (Advanced)
 id: nginx_advanced_xss
 status: experimental
 description: Detects requests with encoded payloads or script tags in parameters in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

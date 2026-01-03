@@ -1,0 +1,18 @@
+title: Windows Defender Updates Disabled
+id: e94f-def-off-setup10
+description: Detects if Windows Defender Definition Updates are turned OFF (Setup EventID 10).
+status: experimental
+logsource:
+  product: windows
+  service: setup
+detection:
+  selection:
+    EventID: 10
+    message|contains: "Defender"
+  condition: selection
+falsepositives:
+  - Admin intentionally disabling updates
+level: high
+tags:
+  - attack.defense_evasion
+  - attack.T1562.001

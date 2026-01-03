@@ -2,7 +2,7 @@ title: Nginx HTTP Smuggling Detection
 id: nginx_http_smuggling
 status: experimental
 description: Detects abnormal use of Transfer-Encoding or Content-Length headers in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver

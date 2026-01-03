@@ -4,7 +4,7 @@ status: experimental
 description: Detects UDP connections on ports typically used for TCP, or vice versa
 references:
   - https://attack.mitre.org/techniques/T1043/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: network

@@ -1,0 +1,27 @@
+title: DNS Name Resolution Failure (WPAD)
+id: hc-evt-1014-dns-wpad-failure
+description: Detects DNS resolution failures for WPAD which may indicate network attacks
+author: yati-01
+date: 2025/12/09
+references:
+    - https://attack.mitre.org/techniques/T1557/001/
+tags:
+    - attack.credential_access
+    - attack.t1557.001
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        EventID: 1014
+    wpad_related:
+        param1|contains:
+            - 'wpad'
+            - 'WPAD'
+    condition: selection and wpad_related
+falsepositives:
+    - Normal DNS configuration issues
+    - Network connectivity problems
+    - Proxy configuration changes
+level: medium
+status: stable

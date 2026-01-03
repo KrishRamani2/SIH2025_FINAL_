@@ -4,7 +4,7 @@ status: experimental
 description: Detects installation or execution of unapproved packages or binaries
 references:
   - https://attack.mitre.org/techniques/T1204/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: syslog

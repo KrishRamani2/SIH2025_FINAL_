@@ -26,7 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 
 # === Configuration ===
-DB_PATH = "./ironchad_logs.db"
+DB_PATH = "collected_logs/ironclad_logs.db"
 STATIC_DIR = Path(__file__).parent / "static"
 ASSETS_DIR = Path(__file__).parent / "assets"
 TEMPLATES_DIR = Path(__file__).parent / "templates"

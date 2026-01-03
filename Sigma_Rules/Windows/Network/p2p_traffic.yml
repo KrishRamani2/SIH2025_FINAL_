@@ -4,7 +4,7 @@ status: experimental
 description: Detects P2P protocols or known P2P ports
 references:
   - https://attack.mitre.org/techniques/T1102/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: network

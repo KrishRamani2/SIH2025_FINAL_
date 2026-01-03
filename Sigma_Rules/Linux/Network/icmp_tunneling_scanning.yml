@@ -4,7 +4,7 @@ status: experimental
 description: Detects high volume or unusual ICMP traffic (covert channels or recon)
 references:
   - https://attack.mitre.org/techniques/T1043/
-author: Copilot
+author: Sachin1785
 logsource:
   product: linux
   service: network

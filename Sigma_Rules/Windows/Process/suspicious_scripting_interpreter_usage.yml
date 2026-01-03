@@ -4,7 +4,7 @@ status: experimental
 description: Detects execution of powershell.exe, cscript.exe, wscript.exe, or other interpreters with suspicious scripts or arguments
 references:
   - https://attack.mitre.org/techniques/T1059/
-author: Copilot
+author: Sachin1785
 logsource:
   product: windows
   service: process

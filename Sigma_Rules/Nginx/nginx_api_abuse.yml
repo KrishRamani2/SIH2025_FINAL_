@@ -2,7 +2,7 @@ title: Nginx API Abuse Detection
 id: nginx_api_abuse
 status: experimental
 description: Detects unusual or excessive API calls, especially to sensitive endpoints in Nginx access logs
-author: Copilot
+author: Sachin1785
 logsource:
   product: nginx
   service: webserver
