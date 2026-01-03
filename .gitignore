@@ -9,11 +9,11 @@ wheels/
 # Virtual environments
 .venv
 
-# # Database files
-# *.db
-# *.db-journal
-# *.sqlite
-# *.sqlite3
+# Database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
 
 
-# ironclad_logs.db
+ironclad_logs.db
