@@ -1,155 +1,135 @@
-# Ironclad Log Ingestion
-    
-This project provides a unified log ingestion system for collecting, parsing, and storing logs from multiple sources (Linux, Windows, Nginx, etc.) across multiple servers. The logs are normalized and stored in a SQLite database for efficient querying and analysis.
+# Trishul – Next-Gen SIEM & Security Dashboard
 
-## Features
-- Listens for syslog (Linux), SNMP traps, and Windows event logs
-- Parses and normalizes logs from different sources
-- Supports multiple servers of each type
-- Stores logs in a normalized SQLite database schema
+Trishul is a premium, high-performance Security Information and Event Management (SIEM) dashboard designed for modern security operations centers (SOCs). It provides real-time visibility into system logs, network threats, and security alerts through a stunning, highly interactive interface.
 
-## How It Works
-- The listener receives logs via UDP (syslog) and SNMP traps
-- Each log is parsed according to its source type
-- Parsed logs are stored in the database, linked to their originating server
-- Windows logs are stored as full JSON bodies; Linux and Nginx logs are parsed into structured fields
+## 🚀 Key Features
 
-## Database Schema
+### 1. **Unified Security Dashboard**
+*   **Real-Time Monitoring**: Visualize threat levels, total logs, and active devices instantly.
+*   **Event Velocity Graph**: A dynamic, live-updating graph showing the velocity of incoming network events.
+*   **Interactive Widgets**: Draggable and customizable widgets for personalized monitoring.
+*   **Visual Analytics**:
+    *   **Threat Attack Map**: Visual representation of MITRE ATT&CK tactics.
+    *   **Alert Distribution**: Breakdown of alerts by severity.
+    *   **Log Source Analysis**: Distribution of logs across different sources (Linux, Windows, etc.).
 
-### Table: `server`
-| Column Name   | Type         | Description                                 |
-|---------------|-------------|---------------------------------------------|
-| id            | INTEGER PK  | Unique server ID                            |
-| hostname      | VARCHAR     | Hostname of the server                      |
-| ip_address    | VARCHAR     | IP address of the server                    |
-| server_type   | VARCHAR     | Type: 'linux', 'windows', 'nginx', etc.     |
+### 2. **Advanced Log Management**
+*   **Multi-Source Ingestion**: Seamlessly collect and parse logs from **Linux** (Syslog) and **Windows** (Event Logs) systems.
+*   **OCFS Export**: Download system logs in **Open Cyber Security Framework (OCFS)** format, tailored for both Linux and Windows environments.
+*   **Live Log Streaming**: Watch logs arrive in real-time with powerful search and filtering capabilities.
 
-### Table: `log_entry`
-| Column Name   | Type         | Description                                 |
-|---------------|-------------|---------------------------------------------|
-| id            | INTEGER PK  | Unique log entry ID                         |
-| server_id     | INTEGER FK  | References server(id)                       |
-| recv_time     | DATETIME    | Time the log was received                   |
-| log_source    | VARCHAR     | Source type: 'linux', 'windows', 'nginx'    |
-| content       | TEXT/JSON   | Raw log line or full Windows JSON           |
+### 3. **Intelligent Alert System**
+*   **Severity Mapping**: Alerts are automatically categorized into **Critical**, **Warning**, and **Info** levels for prioritized response.
+*   **Encrypted Reporting**:
+    *   **Client-Side Encryption**: Securely export alert reports as encrypted `.bin` files.
+    *   **Decrypt Report**: A dedicated, secure interface to decrypt and view sensitive alert reports using a unique key.
 
-### Table: `linux_log_details`
-| Column Name   | Type         | Description                                 |
-|---------------|-------------|---------------------------------------------|
-| log_entry_id  | INTEGER FK  | References log_entry(id)                    |
-| timestamp     | DATETIME    | Timestamp from log                          |
-| app_name      | VARCHAR     | Application name                            |
-| pid           | INTEGER     | Process ID (nullable)                       |
-| raw_message   | TEXT        | Raw message                                 |
-| ssh_action    | VARCHAR     | SSH action (nullable)                       |
-| ssh_user      | VARCHAR     | SSH user (nullable)                         |
-| ssh_ip        | VARCHAR     | SSH source IP (nullable)                    |
+### 4. **Sigma Rule Engine**
+*   **Integrated Editor**: A full-featured code editor for managing Sigma rules.
+*   **Tree View Navigation**: Easily browse and organize rules by category and folder.
+*   **Rule Management**: Create, edit, and save Sigma rules directly within the dashboard.
+*   **Validation**: Built-in YAML validation ensures rule integrity.
 
-### Table: `nginx_log_details`
-| Column Name      | Type         | Description                               |
-|------------------|-------------|-------------------------------------------|
-| log_entry_id     | INTEGER FK  | References log_entry(id)                  |
-| remote_addr      | VARCHAR     | Client IP address                         |
-| remote_user      | VARCHAR     | Remote user                               |
-| time_local       | DATETIME    | Local time                                |
-| request_method   | VARCHAR     | HTTP method                               |
-| request_uri      | VARCHAR     | Requested URI                             |
-| server_protocol  | VARCHAR     | Protocol                                  |
-| status           | INTEGER     | HTTP status code                          |
-| body_bytes_sent  | INTEGER     | Bytes sent                                |
-| http_referer     | VARCHAR     | HTTP referer                              |
-| http_user_agent  | VARCHAR     | User agent                                |
+### 5. **TTP Intelligence (Tactics, Techniques, & Procedures)**
+*   **TTP Editor**: Manage and refine TTP documentation and logic.
+*   **TTP Logs**: View and analyze logs specifically related to known adversary tactics.
+*   **File Detection**: Automatic detection and listing of intelligence files within the `TTP_Intelligence` directory.
 
-### Table: `windows_log_details`
-| Column Name   | Type         | Description                                 |
-|---------------|-------------|---------------------------------------------|
-| log_entry_id  | INTEGER FK  | References log_entry(id)                    |
-| content       | JSON        | Full Windows event JSON body                |
+### 6. **Network & Device Discovery**
+*   **Device Scanning**: Automatically discover and list devices on the network.
+*   **Status Monitoring**: Track the online/offline status of connected assets.
+*   **Network Logs**: Dedicated view for analyzing network-specific traffic and events.
 
-## Usage
-1. Run `final_listner.py` to start the ingestion service on your Python server.
-2. On each Windows server, use the following PowerShell script to ship logs to the ingestion server:
+### 7. **Extensible Plugin System**
+*   **Dynamic Loading**: Upload and integrate custom plugins (`.html`, `.py`) on the fly.
+*   **Modular Architecture**: Extend the dashboard's functionality without altering the core codebase.
 
-```powershell
-# --- CONFIGURATION ---
-$TargetIP = "192.168.0.192"  # Change to your Python IP
-$Port = 5140
-# We now monitor multiple channels
-$LogChannels = @("Security", "Application", "System")
-
-# --- SETUP ---
-$UdpClient = New-Object System.Net.Sockets.UdpClient
-$TargetEndpoint = New-Object System.Net.IPEndPoint([System.Net.IPAddress]::Parse($TargetIP), $Port)
-$Hostname = $env:COMPUTERNAME
-$LastCheckTime = Get-Date
-
-Write-Host "--- MULTI-CHANNEL LOG SHIPPER STARTED ---" -ForegroundColor Green
-Write-Host "Target: $TargetIP : $Port"
-Write-Host "Monitoring: $($LogChannels -join ', ')"
-
-# --- MAIN LOOP ---
-while ($true) {
-	$events = Get-WinEvent -FilterHashTable @{
-		LogName   = $LogChannels
-		StartTime = $LastCheckTime
-	} -ErrorAction SilentlyContinue | Sort-Object TimeCreated
-
-	if ($events) {
-		foreach ($event in $events) {
-			$logObj = [ordered]@{
-				timestamp = $event.TimeCreated.ToString("yyyy-MM-dd HH:mm:ss")
-				hostname  = $Hostname
-				channel   = $event.LogName
-				event_id  = $event.Id
-				level     = $event.LevelDisplayName
-				message   = $event.Message
-			}
-
-			try {
-				$xml = [xml]$event.ToXml()
-				$eventData = $xml.Event.EventData.Data
-				if ($eventData) {
-					foreach ($dataPoint in $eventData) {
-						if ($dataPoint.Name -and $dataPoint.'#text') {
-							$logObj[$dataPoint.Name] = $dataPoint.'#text'
-						}
-					}
-				}
-			}
-			catch {}
-
-			$jsonPayload = $logObj | ConvertTo-Json -Compress -Depth 2
-			$bytes = [System.Text.Encoding]::UTF8.GetBytes($jsonPayload)
-			try {
-				[void]$UdpClient.Send($bytes, $bytes.Length, $TargetEndpoint)
-				$color = switch ($event.LogName) {
-					"Security" { "Cyan" }
-					"System"   { "Yellow" }
-					"Application" { "Magenta" }
-					Default { "White" }
-				}
-				Write-Host "[$($event.LogName)] ID: $($event.Id)" -ForegroundColor $color
-			}
-			catch {
-				Write-Host "Send Failed" -ForegroundColor Red
-			}
-			$LastCheckTime = $event.TimeCreated
-		}
-	}
-	Start-Sleep -Milliseconds 500
-}
-```
-
-3. Logs will be parsed and stored in `collected_logs/ironclad_logs.db` on the Python server.
-4. Query the database using any SQLite client for analysis.
-
-## Extending
-- Add new log sources by extending the parser and schema
-- Integrate with other databases or analytics platforms as needed
+### 8. **Enterprise-Grade Security**
+*   **Role-Based Access Control (RBAC)**:
+    *   **Admin**: Full access to all features.
+    *   **NodeAdmin**: Restricted access (Read-only Sigma, no decryption/plugins).
+*   **Secure Authentication**: Custom login portal with configurable sender ports.
+*   **Session Locking**: One-click session lock for immediate privacy.
 
 ---
-For questions or improvements, please open an issue or contribute!
+
+## 🛠️ Technology Stack
+
+*   **Backend**: Python 3.x, FastAPI, Uvicorn, SQLite
+*   **Frontend**: HTML5, Vanilla JavaScript, Tailwind CSS
+*   **Visualization**: Chart.js, Three.js, Vis.js
+*   **Packaging**: PyInstaller (for standalone executable creation)
+
+---
+
+## 📦 Installation & Setup
+
+### Prerequisites
+*   Python 3.8+
+*   Node.js (optional, for development tools)
+
+### Quick Start
+
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/your-repo/trishul-siem.git
+    cd trishul-siem
+    ```
+
+2.  **Install Dependencies**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Run the Server**
+    ```bash
+    python main.py
+    ```
+    *   The server will start on `http://0.0.0.0:8000` (or the configured port).
+
+4.  **Access the Dashboard**
+    *   Open your browser and navigate to `http://localhost:8000`.
+    *   Login with your credentials.
+
+---
+
+## 📂 Project Structure
+
+```
+├── src/
+│   ├── app/                # Frontend application (HTML, JS, CSS)
+│   │   ├── assets/         # Static assets
+│   │   ├── routes/         # Backend API routes
+│   │   └── index.html      # Main dashboard entry point
+│   └── ...
+├── Sigma_Rules/            # Directory for Sigma detection rules
+├── TTP_Intelligence/       # Directory for TTP intelligence files
+├── collected_logs/         # Storage for ingested logs (SQLite DB)
+├── main.py                 # Application entry point
+└── requirements.txt        # Python dependencies
+```
+
+---
+
+## 🛡️ Usage Guide
+
+### Decrypting Reports
+1.  Navigate to the **Decrypt Report** section.
+2.  Upload the encrypted `.bin` file you received.
+3.  Enter the unique **Decryption Key**.
+4.  The system will decrypt and display the sensitive alert data in a secure table.
+
+### Managing Sigma Rules
+1.  Go to the **Sigma Rule Editor**.
+2.  Use the file tree on the left to navigate folders.
+3.  Click a rule to edit it, or use the "+" button to create a new rule.
+4.  Save your changes to update the detection logic.
+
+### Exporting Logs
+1.  Navigate to **System Logs**.
+2.  Filter by **Linux** or **Windows**.
+3.  Click the **Download OCFS** button to get a standardized log export.
+
+---
 
 
-To run the code "
-sudo uv run uvicorn src.app.server:app --host 0.0.0.0 --port 8000 --reload

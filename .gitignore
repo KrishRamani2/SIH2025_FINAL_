@@ -1,3 +1,5 @@
+# Ignore the main database file
+collected_logs/ironclad_logs.db
 # Python-generated files
 __pycache__/
 *.py[oc]

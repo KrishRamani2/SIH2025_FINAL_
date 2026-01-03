@@ -1,9 +1,24 @@
-# Agentless SIEM - Requirements
-
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-jinja2==3.1.2
-pydantic==2.5.0
-python-multipart==0.0.6
-loguru==0.7.2
-pysnmp==4.4.12
+# For secure communications and dependencies (required by some packages)
+cryptography>=41.0.0
+# IRONCLAD SIEM - Full Requirements
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+jinja2>=3.1.2
+pydantic>=2.5.0
+python-multipart>=0.0.6
+loguru>=0.7.2
+pysnmp>=4.4.12
+sqlalchemy>=2.0.44
+pyyaml>=6.0.3
+polars>=1.35.2
+scapy>=2.6.1
+websockets>=15.0.1
+zmq>=0.0.0
+# For USB plugin (Windows/Linux support)
+wmi; platform_system == "Windows"
+pyudev; platform_system == "Linux"
+# For Flask-based encrypted_server (optional, if used)
+flask>=2.0.0
+flask_socketio>=5.0.0
+flask_cors>=3.0.0
+drain3>=0.9.7

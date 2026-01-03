@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # These args are passed from the environment variables set by the build script
+      args:
+        - INCLUDE_LINUX_RULES=${INCLUDE_LINUX_RULES:-false}
+        - INCLUDE_NGINX_RULES=${INCLUDE_NGINX_RULES:-false}
+        - INCLUDE_WINDOWS_RULES=${INCLUDE_WINDOWS_RULES:-false}
+    # The image name is now parameterized
+    image: sih-central-custom:${IMAGE_TAG:-latest}
+    container_name: sih-central-app
+    ports:
+      - "8000:8000"
+      - "5140:5140/udp"
+    volumes:
+      # We still mount the database and logs for persistence
+      - ./src/db:/app/src/db
+      - ./collected_logs:/app/collected_logs
+      # Note: Sigma_Rules are now part of the image, so we don't mount the whole directory.
+      # This ensures the container runs with only the rules it was built with.
+    restart: unless-stopped
